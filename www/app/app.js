@@ -5,7 +5,8 @@
 		'ionic',
 		/* Application modules */
 		'settler.menu',
-		'settler.start'
+		'settler.start',
+		'settler.settle'
 	];
 
 	angular.module('settler', dependencies)
@@ -30,6 +31,6 @@
 	config.$inject = ['$urlRouterProvider'];
 	function config($urlRouterProvider) {
 		// Defaut route
-		$urlRouterProvider.otherwise('/settler/start');
+		$urlRouterProvider.otherwise('/settler/settle');
 	}
 })();

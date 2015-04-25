@@ -17,20 +17,23 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+  </head>
+
+  <body ng-app="settler">
+    <ion-nav-view></ion-nav-view>
 
     <!-- your app's js -->
     <script src="app/app.js"></script>
     <!-- load modules -->
     <script src="app/menu/menu.module.js"></script>
     <script src="app/start/start.module.js"></script>
+    <script src="app/settle/settle.module.js"></script>
     <!-- load routes -->
     <script src="app/menu/menu.routes.js"></script>
     <script src="app/start/start.routes.js"></script>
+    <script src="app/settle/settle.routes.js"></script>
     <!-- load the rest of the app -->
     <script src="app/menu/menu.controller.js"></script>
-  </head>
-
-  <body ng-app="settler">
-    <ion-nav-view></ion-nav-view>
+    <script src="app/settle/settle.controller.js"></script>
   </body>
 </html>
