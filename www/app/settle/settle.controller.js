@@ -7,6 +7,8 @@
     SettleController.inject = ['$scope', '$ionicModal', '$ionicPopup'];
     function SettleController($scope, $ionicModal, $ionicPopup) {
         var vm = this,
+            editing = false,
+            editingIndex = -1,
             modal;
 
         /// Data
@@ -17,6 +19,7 @@
 
         /// Actions
         vm.removeEntry = removeEntry;
+        vm.editEntry = editEntry;
         vm.openAddEntryModal = openAddEntryModal;
         vm.closeAddEntryModal = closeAddEntryModal;
         vm.saveNewEntry = saveNewEntry;
@@ -44,6 +47,18 @@
             vm.entries.splice(index, 1);
         }
 
+        function editEntry(index) {
+            var entry = vm.entries[index];
+            vm.newEntry.name = entry.name;
+            vm.newEntry.note = entry.note;
+            vm.newEntry.amount = entry.amount;
+
+            editing = true;
+            editingIndex = index;
+
+            openAddEntryModal();
+        }
+
         function openAddEntryModal() {
             modal.show();
         }
@@ -52,15 +67,26 @@
             vm.newEntry.name = "";
             vm.newEntry.note = "";
             vm.newEntry.amount = "";
+
+            editing = false;
+            editingIndex = -1;
+
             modal.hide();
         }
 
         function saveNewEntry() {
-            vm.entries.push({
+            var newEntry = {
                 name: vm.newEntry.name,
                 note: vm.newEntry.note,
                 amount: vm.newEntry.amount
-            });
+            };
+
+            if (editing) {
+                vm.entries[editingIndex] = newEntry;
+            } else {
+                vm.entries.push(newEntry);
+            }
+
             closeAddEntryModal();
         }
 
