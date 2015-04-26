@@ -4,19 +4,23 @@
     angular.module('settler.settle')
         .controller('SettleController', SettleController);
 
-    SettleController.inject = ['$scope', '$ionicModal'];
-    function SettleController($scope, $ionicModal) {
+    SettleController.inject = ['$scope', '$ionicModal', '$ionicPopup'];
+    function SettleController($scope, $ionicModal, $ionicPopup) {
         var vm = this,
             modal;
 
         /// Data
+        vm.canSwipeEntries = true;
         vm.settlementTitle = 'Untitled settlement';
-        vm.items = [];
+        vm.entries = [];
+        vm.newEntry = { name: "", note: "", amount: "" };
 
         /// Actions
         vm.removeEntry = removeEntry;
         vm.openAddEntryModal = openAddEntryModal;
         vm.closeAddEntryModal = closeAddEntryModal;
+        vm.saveNewEntry = saveNewEntry;
+        vm.renameSettlement = renameSettlement;
 
         /// Events
         $scope.$on('$destroy', function() {
@@ -28,9 +32,6 @@
 
         /// Implementation
         function initialize() {
-            for(var i = 0; i < 20; i++) {
-                vm.items.push({title: "Test "+i, description: "Test test test test test test test "+i});
-            }
             $ionicModal.fromTemplateUrl('app/settle/add-entry-modal.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
@@ -40,7 +41,7 @@
         }
 
         function removeEntry(index) {
-            vm.items.splice(index, 1);
+            vm.entries.splice(index, 1);
         }
 
         function openAddEntryModal() {
@@ -48,7 +49,31 @@
         }
 
         function closeAddEntryModal() {
+            vm.newEntry.name = "";
+            vm.newEntry.note = "";
+            vm.newEntry.amount = "";
             modal.hide();
+        }
+
+        function saveNewEntry() {
+            vm.entries.push({
+                name: vm.newEntry.name,
+                note: vm.newEntry.note,
+                amount: vm.newEntry.amount
+            });
+            closeAddEntryModal();
+        }
+
+        function renameSettlement() {
+            $ionicPopup.prompt({
+                title: 'Rename settlement',
+                inputType: 'text',
+                inputPlaceholder: 'New name'
+            }).then(function(input) {
+                if (input) {
+                    vm.settlementTitle = input;
+                }
+            });
         }
     }
 })();

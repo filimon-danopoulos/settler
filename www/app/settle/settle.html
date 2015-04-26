@@ -1,16 +1,19 @@
 <ion-view view-title="Settle" >
-    <ion-header-bar class="bar bar-subheader bar-balanced">
-        <h2 class="title">{{vm.settlementTitle}}</h2>
+    <ion-header-bar align-title="left" class="bar bar-subheader bar-positive">
+        <h1 class="title" ng-click="vm.renameSettlement()">{{vm.settlementTitle}}</h1>
         <div class="buttons">
             <button class="button button-icon icon ion-ios-plus-outline" ng-click="vm.openAddEntryModal()"></button>
         </div>
     </ion-header-bar>
     <ion-content class="has-header">
-        <ion-list can-swipe="true">
-            <ion-item ng-repeat="item in vm.items">
-                <h2>{{item.title}}</h2>
-                <p>{{item.description}}</p>
-                <ion-option-button class="button-assertive" ng-click="vm.removeEntry($index)">Remove</ion-option-button>
+        <ion-list can-swipe="vm.canSwipeEntries">
+            <ion-item ng-repeat="item in vm.entries">
+                <h2>{{item.name}}</h2>
+                <p>{{item.amount}} {{item.note}}</p>
+                <ion-option-button class="button-assertive"
+                            ng-click="vm.removeEntry($index)">
+                    Remove
+                </ion-option-button>
             </ion-item>
         </ion-list>
     </ion-content>
