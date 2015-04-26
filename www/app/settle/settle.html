@@ -1,9 +1,17 @@
-<ion-view view-title="Settle">
-    <ion-content>
-        <div class="card">
-            <div class="item item-divider">
-                <h1>Settler</h1>
-            </div>
+<ion-view view-title="Settle" >
+    <ion-header-bar class="bar bar-subheader bar-balanced">
+        <h2 class="title">{{vm.settlementTitle}}</h2>
+        <div class="buttons">
+            <button class="button button-icon icon ion-ios-plus-outline" ng-click="vm.openAddEntryModal()"></button>
         </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <ion-list can-swipe="true">
+            <ion-item ng-repeat="item in vm.items">
+                <h2>{{item.title}}</h2>
+                <p>{{item.description}}</p>
+                <ion-option-button class="button-assertive" ng-click="vm.removeEntry($index)">Remove</ion-option-button>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

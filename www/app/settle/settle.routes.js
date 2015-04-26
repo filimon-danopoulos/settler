@@ -11,7 +11,8 @@
                 url: '/settle',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/settle/settle.html'
+                        templateUrl: 'app/settle/settle.html',
+                        controller: 'SettleController as vm'
                     }
                 }
             });
