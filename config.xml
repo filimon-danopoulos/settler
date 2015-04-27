@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.settler360398" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>settler</name>
+  <name>Settler</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Settle debts between friends
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="filimon.danopoulos@gmail.com" href="https://github.com/filimon-danopoulos/">
+      Filimon Danopoulos
     </author>
   <content src="index.html"/>
   <access origin="*"/>

@@ -11,8 +11,24 @@
                 url: '/settle',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/settle/settle.html',
+                        templateUrl: 'app/settle/templates/settle.html',
                         controller: 'SettleController as vm'
+                    }
+                }
+            })
+            .state('settler.settle.entries', {
+                url: '/entries',
+                views: {
+                    'entriesTab': {
+                        templateUrl: 'app/settle/templates/entries.html'
+                    }
+                }
+            })
+            .state('settler.settle.result', {
+                url: '/result',
+                views: {
+                    'resultTab': {
+                        templateUrl: 'app/settle/templates/result.html'
                     }
                 }
             });

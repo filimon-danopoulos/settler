@@ -1,0 +1,15 @@
+<ion-view  align-title="right" view-title="Settle" >
+    <ion-tabs class="tabs-positive tabs-icon-only">
+        <ion-tab title="Home" href="#/settler/settle/entries"
+                 icon-on="ion-ios-compose"
+                 icon-off="ion-ios-compose-outline">
+            <ion-nav-view name="entriesTab"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="About" href="#/settler/settle/result"
+                 icon-on="ion-ios-pie"
+                 icon-off="ion-ios-pie-outline"
+                 on-select="vm.calculateResult()">
+            <ion-nav-view name="resultTab"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+</ion-view>

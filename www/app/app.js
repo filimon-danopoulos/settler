@@ -28,9 +28,13 @@
 		});
 	}
 
-	config.$inject = ['$urlRouterProvider'];
-	function config($urlRouterProvider) {
+	config.$inject = ['$urlRouterProvider', '$ionicConfigProvider'];
+	function config($urlRouterProvider, $ionicConfigProvider) {
 		// Defaut route
 		$urlRouterProvider.otherwise('/settler/settle');
+		// Always places tabs on bottom
+		$ionicConfigProvider.tabs.position('bottom');
+		// Allign title center for all platfroms
+		$ionicConfigProvider.navBar.alignTitle('center');
 	}
 })();
