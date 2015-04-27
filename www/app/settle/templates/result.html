@@ -6,7 +6,9 @@
     </div>
 </ion-header-bar>
 <ion-content class="has-header">
-    <div>
-        {{vm.result}}
-    </div>
+    <ion-list can-swipe="vm.canSwipeEntries">
+        <ion-item ng-repeat="item in vm.result">
+            <p><strong>{{item.gives}}</strong>  should give <strong>{{item.recieves}}</strong> {{item.amount}}:- </p>
+        </ion-item>
+    </ion-list>
 </ion-content>

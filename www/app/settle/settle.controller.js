@@ -109,8 +109,7 @@
         }
 
         function calculateResult() {
-            var result = settleService.getTransactions(vm.entries);
-            vm.result = JSON.stringify(result, null, 2);
+            vm.result = settleService.getTransactions(vm.entries);
         }
     }
 })();
