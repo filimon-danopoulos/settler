@@ -19,7 +19,9 @@
 
         /// Implementation
         function initialize() {
-            vm.history = localStorage.readAll();
+            vm.history = localStorage.readAll().filter(function(x) {
+                return x.archived;
+            });
         }
 
         function removeItem(index) {

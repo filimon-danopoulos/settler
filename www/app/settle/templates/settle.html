@@ -1,14 +1,17 @@
 <ion-view  align-title="right" view-title="Settle" >
     <ion-header-bar align-title="left" class="bar bar-subheader bar-positive">
-        <h1 class="title" ng-click="vm.renameSettlement()">{{vm.settlementTitle}}</h1>
+        <h1 class="title">{{vm.settlementTitle}}</h1>
         <div class="buttons">
             <button class="button button-icon icon ion-ios-plus-outline"
-                    ng-show="vm.canEditEntries"
+                    ng-show="!vm.isArchived"
                     ng-click="vm.openAddEntryModal()"></button>
+            <button class="button button-icon icon ion-more"
+                    ng-show="!vm.isArchived"
+                    ng-click="vm.showActionsPopover($event)"></button>
         </div>
     </ion-header-bar>
     <ion-content>
-        <ion-list can-swipe="vm.canEditEntries">
+        <ion-list can-swipe="!vm.isArchived">
             <ion-item ng-repeat="item in vm.entries">
                 <h2>{{item.name}}</h2>
                 <p>{{item.amount}} {{item.note}}</p>

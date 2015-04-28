@@ -8,18 +8,20 @@
         '$scope',
         '$ionicModal',
         '$ionicPopup',
+        '$ionicPopover',
         'localStorage'
     ];
-    function SettleController($scope, $ionicModal, $ionicPopup, localStorage) {
+    function SettleController($scope, $ionicModal, $ionicPopup, $ionicPopover, localStorage) {
         var vm = this,
             editing = false,
             editingIndex = -1,
-            modal;
+            addEntryModal,
+            actionsPopover;
 
         /// Data
         vm.settlementId;
-        vm.canEditEntries = true;
-        vm.settlementTitle = 'Untitled settlement';
+        vm.isArchived = false;
+        vm.settlementTitle = '';
         vm.entries = [];
         vm.newEntry = { name: "", note: "", amount: "" };
 
@@ -30,10 +32,13 @@
         vm.closeAddEntryModal = closeAddEntryModal;
         vm.saveNewEntry = saveNewEntry;
         vm.renameSettlement = renameSettlement;
+        vm.showActionsPopover = showActionsPopover;
+        vm.archiveSettlement = archiveSettlement;
 
         /// Events
         $scope.$on('$destroy', function() {
-            vm.modal.remove();
+            addEntryModal.remove();
+            actionsPopover.remove();
         });
 
         /// Initialization
@@ -41,13 +46,22 @@
 
         /// Implementation
         function initialize() {
-            vm.settlementId = +(new Date());
+            var now = new Date()
+
+            vm.settlementId = +now;
+            vm.settlementTitle = now.toISOString().split('T').shift();
 
             $ionicModal.fromTemplateUrl('app/settle/templates/add-entry-modal.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
-            }).then(function(result) {
-                modal = result;
+            }).then(function(modal) {
+                addEntryModal = modal;
+            });
+
+            $ionicPopover.fromTemplateUrl('app/settle/templates/actions-popover.html', {
+                scope: $scope,
+            }).then(function(popover) {
+                actionsPopover = popover;
             });
         }
 
@@ -69,7 +83,7 @@
         }
 
         function openAddEntryModal() {
-            modal.show();
+            addEntryModal.show();
         }
 
         function closeAddEntryModal() {
@@ -80,7 +94,7 @@
             editing = false;
             editingIndex = -1;
 
-            modal.hide();
+            addEntryModal.hide();
         }
 
         function saveNewEntry() {
@@ -101,6 +115,7 @@
         }
 
         function renameSettlement() {
+            actionsPopover.hide();
             $ionicPopup.prompt({
                 title: 'Rename settlement',
                 inputType: 'text',
@@ -116,8 +131,20 @@
         function updateSettlementInStorage() {
             localStorage.updateOrCreate(vm.settlementId, {
                 title: vm.settlementTitle,
+                archived: vm.isArchived,
                 entries: vm.entries
             });
+        }
+
+        function showActionsPopover($event) {
+            actionsPopover.show($event);
+        }
+
+
+        function archiveSettlement() {
+            actionsPopover.hide();
+            vm.isArchived = true;
+            updateSettlementInStorage();
         }
     }
 })();
