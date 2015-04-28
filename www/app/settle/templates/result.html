@@ -1,14 +1,12 @@
-<ion-header-bar align-title="left" class="bar bar-subheader bar-positive">
-    <h1 class="title">{{vm.settlementTitle}}</h1>
-    <div class="buttons">
-        <button class="button button-icon icon ion-ios-download-outline"
-                ng-click=""></button>
-    </div>
-</ion-header-bar>
-<ion-content class="has-header">
-    <ion-list can-swipe="vm.canSwipeEntries">
-        <ion-item ng-repeat="item in vm.result">
-            <p><strong>{{item.gives}}</strong>  should give <strong>{{item.recieves}}</strong> {{item.amount}}:- </p>
-        </ion-item>
-    </ion-list>
-</ion-content>
+<ion-view  align-title="right" view-title="Result" >
+    <ion-header-bar align-title="left" class="bar bar-subheader bar-positive">
+        <h1 class="title">{{vm.title}}</h1>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <ion-list>
+            <ion-item ng-repeat="item in vm.result">
+                <p><strong>{{item.gives}}</strong>  should give <strong>{{item.recieves}}</strong> {{item.amount}}:- </p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

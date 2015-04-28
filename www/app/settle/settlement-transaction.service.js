@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('settler.settle')
-        .factory('settleService', settleCalculationFactory);
+        .factory('settlementTransactionService', settlementTransactionServiceFactory);
 
-    settleCalculationFactory.inject = [];
-    function settleCalculationFactory() {
+    settlementTransactionServiceFactory.inject = [];
+    function settlementTransactionServiceFactory() {
         return {
             getTransactions: getTransactions
         };

@@ -16,19 +16,12 @@
                     }
                 }
             })
-            .state('settler.settle.entries', {
-                url: '/entries',
+            .state('settler.result', {
+                url: '/result/:settlementId',
                 views: {
-                    'entriesTab': {
-                        templateUrl: 'app/settle/templates/entries.html'
-                    }
-                }
-            })
-            .state('settler.settle.result', {
-                url: '/result',
-                views: {
-                    'resultTab': {
-                        templateUrl: 'app/settle/templates/result.html'
+                    'menuContent': {
+                        templateUrl: 'app/settle/templates/result.html',
+                        controller: 'ResultController as vm'
                     }
                 }
             });

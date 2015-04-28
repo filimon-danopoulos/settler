@@ -8,16 +8,17 @@
         '$scope',
         '$ionicModal',
         '$ionicPopup',
-        'settleService'
+        'localStorage'
     ];
-    function SettleController($scope, $ionicModal, $ionicPopup, settleService) {
+    function SettleController($scope, $ionicModal, $ionicPopup, localStorage) {
         var vm = this,
             editing = false,
             editingIndex = -1,
             modal;
 
         /// Data
-        vm.canSwipeEntries = true;
+        vm.settlementId;
+        vm.canEditEntries = true;
         vm.settlementTitle = 'Untitled settlement';
         vm.entries = [];
         vm.newEntry = { name: "", note: "", amount: "" };
@@ -29,7 +30,6 @@
         vm.closeAddEntryModal = closeAddEntryModal;
         vm.saveNewEntry = saveNewEntry;
         vm.renameSettlement = renameSettlement;
-        vm.calculateResult = calculateResult;
 
         /// Events
         $scope.$on('$destroy', function() {
@@ -41,6 +41,8 @@
 
         /// Implementation
         function initialize() {
+            vm.settlementId = +(new Date());
+
             $ionicModal.fromTemplateUrl('app/settle/templates/add-entry-modal.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
@@ -92,6 +94,7 @@
             } else {
                 vm.entries.push(newEntry);
             }
+            updateSettlementInStorage();
 
             closeAddEntryModal();
         }
@@ -104,12 +107,16 @@
             }).then(function(input) {
                 if (input) {
                     vm.settlementTitle = input;
+                    updateSettlementInStorage();
                 }
             });
         }
 
-        function calculateResult() {
-            vm.result = settleService.getTransactions(vm.entries);
+        function updateSettlementInStorage() {
+            localStorage.updateOrCreate(vm.settlementId, {
+                title: vm.settlementTitle,
+                entries: vm.entries
+            });
         }
     }
 })();

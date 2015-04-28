@@ -1,3 +1,9 @@
 .pane {
     background-color: #dfe6f2;
 }
+
+
+.footer-bar-centered {
+    width: 100%;
+    text-align: center;
+}

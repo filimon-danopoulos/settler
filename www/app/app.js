@@ -4,6 +4,7 @@
 		/* Framework specific includes */
 		'ionic',
 		/* Application modules */
+		'settler.common',
 		'settler.menu',
 		'settler.start',
 		'settler.settle'
