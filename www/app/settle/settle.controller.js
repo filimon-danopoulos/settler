@@ -53,6 +53,7 @@
 
         function removeEntry(index) {
             vm.entries.splice(index, 1);
+            updateSettlementInStorage();
         }
 
         function editEntry(index) {

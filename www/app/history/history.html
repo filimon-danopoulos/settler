@@ -1,0 +1,13 @@
+<ion-view view-title="History">
+    <ion-content>
+        <ion-list can-swipe="{{true}}">
+            <ion-item ng-repeat="item in vm.history">
+                <h2>{{item.title}}</h2>
+                <ion-option-button class="button-assertive"
+                            ng-click="vm.removeItem($index)">
+                    Remove
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
