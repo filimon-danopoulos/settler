@@ -1,14 +1,19 @@
 <ion-popover-view class="fit">
     <ion-content>
         <div class="list">
-            <div class="item icon ion-edit" ng-click="vm.renameSettlement()">
+            <div class="item icon ion-edit"
+                 ng-hide="vm.isArchived"
+                 ng-click="vm.renameSettlement()">
                 Rename
             </div>
-            <div class="item icon ion-archive" ng-click="vm.archiveSettlement()">
+            <div class="item icon ion-archive"
+                 ng-hide="vm.entries.length <= 1 || vm.isArchived"
+                 ng-click="vm.archiveSettlement()">
                 Archive
             </div>
-            <div class="item icon ion-refresh">
-                Clear
+            <div class="item icon ion-refresh"
+                 ng-click="vm.reset()">
+                New
             </div>
         </div>
     </ion-content>

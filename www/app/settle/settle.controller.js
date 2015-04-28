@@ -19,13 +19,14 @@
             actionsPopover;
 
         /// Data
-        vm.settlementId;
+        vm.settlementId = null;
         vm.isArchived = false;
         vm.settlementTitle = '';
         vm.entries = [];
         vm.newEntry = { name: "", note: "", amount: "" };
 
         /// Actions
+        vm.reset = reset;
         vm.removeEntry = removeEntry;
         vm.editEntry = editEntry;
         vm.openAddEntryModal = openAddEntryModal;
@@ -46,7 +47,7 @@
 
         /// Implementation
         function initialize() {
-            var now = new Date()
+            var now = new Date();
 
             vm.settlementId = +now;
             vm.settlementTitle = now.toISOString().split('T').shift();
@@ -63,6 +64,33 @@
             }).then(function(popover) {
                 actionsPopover = popover;
             });
+        }
+
+        function reset() {
+            var createNew = function() {
+                var now = new Date();
+                vm.settlementId = +now;
+                vm.settlementTitle = now.toISOString().split('T').shift();
+                vm.isArchived = false;
+                vm.entries = [];
+                vm.newEntry = { name: "", note: "", amount: "" };
+            };
+
+            actionsPopover.hide();
+            if (vm.isArchived) {
+                createNew();
+            } else {
+                $ionicPopup.confirm({
+                    title: 'New',
+                    template: 'Creating a new settlement will discard this one. '+
+                        'You will still be able to access it via the history function. ' +
+                        'Do you want to crete a new settlement?'
+                }).then(function(result) {
+                    if(result) {
+                        createNew();
+                    }
+                });
+            }
         }
 
         function removeEntry(index) {
@@ -143,8 +171,16 @@
 
         function archiveSettlement() {
             actionsPopover.hide();
-            vm.isArchived = true;
-            updateSettlementInStorage();
+            $ionicPopup.confirm({
+                title: 'Archive',
+                template: 'An archived settlement can not be edited. ' +
+                    'Are you sure you want to archive this settlement?'
+            }).then(function(result) {
+                if(result) {
+                    vm.isArchived = true;
+                    updateSettlementInStorage();
+                }
+            });
         }
     }
 })();
