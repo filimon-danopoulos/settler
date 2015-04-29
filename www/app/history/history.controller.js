@@ -13,6 +13,7 @@
 
         /// Actions
         vm.removeItem = removeItem;
+        vm.getSettlementId = getSettlementId;
 
         /// Events
         $scope.$on('$ionicView.enter', initialize);
@@ -25,6 +26,10 @@
         function removeItem(index) {
             var affected = vm.history.splice(index, 1).shift();
             persistenceService.destroy(affected[persistenceService.KEY_NAME]);
+        }
+
+        function getSettlementId(item) {
+            return item[persistenceService.KEY_NAME];
         }
     }
 })();

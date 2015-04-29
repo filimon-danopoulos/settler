@@ -8,7 +8,7 @@
     function config($stateProvider) {
         $stateProvider
             .state('settler.settle', {
-                url: '/settle',
+                url: '/settle/{settlementId}',
                 views: {
                     'menuContent': {
                         templateUrl: 'app/settle/templates/settle.html',

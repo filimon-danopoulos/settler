@@ -9,21 +9,26 @@
         '$ionicModal',
         '$ionicPopup',
         '$ionicPopover',
+        '$stateParams',
         'persistenceService'
     ];
-    function SettleController($scope, $ionicModal, $ionicPopup, $ionicPopover, persistenceService) {
+    function SettleController($scope, $ionicModal, $ionicPopup,
+            $ionicPopover, $stateParams, persistenceService) {
         var vm = this,
             editing = false,
             editingIndex = -1,
             addEntryModal,
-            actionsPopover;
+            actionsPopover,
+            isArchivedDefault = false,
+            entriesDefault = [],
+            newEntryDefault = { name: "", note: "", amount: "" };
 
         /// Data
-        vm.settlementId = null;
-        vm.isArchived = false;
-        vm.settlementTitle = '';
-        vm.entries = [];
-        vm.newEntry = { name: "", note: "", amount: "" };
+        vm.settlementId = getNewSettlementId();
+        vm.isArchived = isArchivedDefault;
+        vm.settlementTitle = getDefaultSettleMentTitle();
+        vm.entries = entriesDefault;
+        vm.newEntry = newEntryDefault;
 
         /// Actions
         vm.reset = reset;
@@ -37,28 +42,50 @@
         vm.archiveSettlement = archiveSettlement;
 
         /// Events
+        $scope.$on('$ionicView.enter', initialize);
         $scope.$on('$destroy', function() {
             addEntryModal.remove();
             actionsPopover.remove();
         });
 
-        /// Initialization
-        initialize();
-
         /// Implementation
         function initialize() {
-            var now = new Date();
+            if (!$stateParams.settlementId) {
+                createNew();
+            } else {
+                loadFromHistory($stateParams.settlementId);
+            }
+            initializeModals();
+            initializePopover();
+        }
 
-            vm.settlementId = +now;
-            vm.settlementTitle = now.toISOString().split('T').shift();
+        function createNew() {
+            vm.settlementId = getNewSettlementId();
+            vm.settlementTitle = getDefaultSettleMentTitle();
+            vm.isArchived = vm.isArchivedDefault;
+            vm.entries = entriesDefault;
+            vm.newEntry = newEntryDefault;
+        };
 
+        function loadFromHistory(settlementId) {
+            var data = persistenceService.read(settlementId);
+            vm.settlementId = settlementId;
+            vm.settlementTitle = data.title;
+            vm.isArchived = data.archived;
+            vm.entries = data.entries;
+            vm.newEntry = newEntryDefault;
+        }
+
+        function initializeModals() {
             $ionicModal.fromTemplateUrl('app/settle/templates/add-entry-modal.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
             }).then(function(modal) {
                 addEntryModal = modal;
             });
+        }
 
+        function initializePopover() {
             $ionicPopover.fromTemplateUrl('app/settle/templates/actions-popover.html', {
                 scope: $scope,
             }).then(function(popover) {
@@ -66,16 +93,17 @@
             });
         }
 
-        function reset() {
-            var createNew = function() {
-                var now = new Date();
-                vm.settlementId = +now;
-                vm.settlementTitle = now.toISOString().split('T').shift();
-                vm.isArchived = false;
-                vm.entries = [];
-                vm.newEntry = { name: "", note: "", amount: "" };
-            };
+        function getNewSettlementId() {
+            var now = new Date();
+            return +now;
+        }
 
+        function getDefaultSettleMentTitle() {
+            var now = new Date();
+            return now.toISOString().split('T').shift();
+        }
+
+        function reset() {
             actionsPopover.hide();
             if (vm.isArchived) {
                 createNew();
@@ -131,14 +159,12 @@
                 note: vm.newEntry.note,
                 amount: parseFloat(vm.newEntry.amount)
             };
-
             if (editing) {
                 vm.entries[editingIndex] = newEntry;
             } else {
                 vm.entries.push(newEntry);
             }
             updateSettlementInStorage();
-
             closeAddEntryModal();
         }
 
@@ -167,7 +193,6 @@
         function showActionsPopover($event) {
             actionsPopover.show($event);
         }
-
 
         function archiveSettlement() {
             actionsPopover.hide();
