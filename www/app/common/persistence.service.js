@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('settler.common')
-        .factory('localStorage', localStorageFactory);
+        .factory('persistenceService', persistenceServiceFactory);
 
-    localStorageFactory.inject = ["$window"];
-    function localStorageFactory($window) {
+    persistenceServiceFactory.inject = ["$window"];
+    function persistenceServiceFactory($window) {
         var storageKeyPropertyName = "storageKey";
 
         return {

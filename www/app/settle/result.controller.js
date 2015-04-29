@@ -8,9 +8,9 @@
         '$scope',
         '$stateParams',
         'settlementTransactionService',
-        'localStorage'
+        'persistenceService'
     ];
-    function ResultController($scope, $stateParams, settlementTransactionService, localStorage) {
+    function ResultController($scope, $stateParams, settlementTransactionService, persistenceService) {
         var vm = this,
             settlementId;
 
@@ -25,7 +25,7 @@
         function initialize() {
             var data;
             settlementId = $stateParams.settlementId;
-            data = localStorage.read(settlementId);
+            data = persistenceService.read(settlementId);
             vm.title = data.title;
             vm.result = calculateResult(data.entries);
         }

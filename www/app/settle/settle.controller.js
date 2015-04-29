@@ -9,9 +9,9 @@
         '$ionicModal',
         '$ionicPopup',
         '$ionicPopover',
-        'localStorage'
+        'persistenceService'
     ];
-    function SettleController($scope, $ionicModal, $ionicPopup, $ionicPopover, localStorage) {
+    function SettleController($scope, $ionicModal, $ionicPopup, $ionicPopover, persistenceService) {
         var vm = this,
             editing = false,
             editingIndex = -1,
@@ -157,7 +157,7 @@
         }
 
         function updateSettlementInStorage() {
-            localStorage.updateOrCreate(vm.settlementId, {
+            persistenceService.updateOrCreate(vm.settlementId, {
                 title: vm.settlementTitle,
                 archived: vm.isArchived,
                 entries: vm.entries

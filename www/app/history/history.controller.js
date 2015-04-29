@@ -4,8 +4,8 @@
     angular.module('settler.history')
         .controller('HistoryController', HistoryController);
 
-    HistoryController.$inject = ['$scope', 'localStorage'];
-    function HistoryController($scope, localStorage) {
+    HistoryController.$inject = ['$scope', 'persistenceService'];
+    function HistoryController($scope, persistenceService) {
         var vm = this;
 
         /// Data
@@ -19,12 +19,12 @@
 
         /// Implementation
         function initialize() {
-            vm.history = localStorage.readAll();
+            vm.history = persistenceService.readAll();
         }
 
         function removeItem(index) {
             var affected = vm.history.splice(index, 1).shift();
-            localStorage.destroy(affected[localStorage.KEY_NAME]);
+            persistenceService.destroy(affected[persistenceService.KEY_NAME]);
         }
     }
 })();
