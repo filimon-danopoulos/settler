@@ -8,7 +8,8 @@
 		'settler.menu',
 		'settler.start',
 		'settler.settle',
-		'settler.history'
+		'settler.history',
+		'settler.debts'
 	];
 
 	angular.module('settler', dependencies)
