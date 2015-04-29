@@ -2,7 +2,7 @@
     <ion-content>
         <ion-list can-swipe="{{true}}">
             <ion-item ng-repeat="item in vm.history"
-                      ui-sref="settler.settle({settlementId: {{vm.getSettlementId(item)}}})">
+                      ui-sref="settler.settlement({settlementId: {{vm.getSettlementId(item)}}})">
                 <h2>{{item.title}}</h2>
                 <ion-option-button class="button-assertive"
                             ng-click="vm.removeItem($index)">

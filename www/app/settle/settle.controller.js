@@ -18,17 +18,10 @@
             editing = false,
             editingIndex = -1,
             addEntryModal,
-            actionsPopover,
-            isArchivedDefault = false,
-            entriesDefault = [],
-            newEntryDefault = { name: "", note: "", amount: "" };
+            actionsPopover;
 
         /// Data
-        vm.settlementId = getNewSettlementId();
-        vm.isArchived = isArchivedDefault;
-        vm.settlementTitle = getDefaultSettleMentTitle();
-        vm.entries = entriesDefault;
-        vm.newEntry = newEntryDefault;
+        vm.isFromHistory = $stateParams.settlementId;
 
         /// Actions
         vm.reset = reset;
@@ -42,19 +35,23 @@
         vm.archiveSettlement = archiveSettlement;
 
         /// Events
-        $scope.$on('$ionicView.enter', initialize);
+        $scope.$on('$ionicView.beforeEnter', initializeSettlement);
+        $scope.$on('$ionicView.enter', initializeViews);
         $scope.$on('$destroy', function() {
             addEntryModal.remove();
             actionsPopover.remove();
         });
 
         /// Implementation
-        function initialize() {
-            if (!$stateParams.settlementId) {
+        function initializeSettlement() {
+            if (!vm.isFromHistory && !vm.settlementId) {
                 createNew();
-            } else {
+            } else if (vm.isFromHistory) {
                 loadFromHistory($stateParams.settlementId);
             }
+        }
+
+        function initializeViews() {
             initializeModals();
             initializePopover();
         }
@@ -62,10 +59,10 @@
         function createNew() {
             vm.settlementId = getNewSettlementId();
             vm.settlementTitle = getDefaultSettleMentTitle();
-            vm.isArchived = vm.isArchivedDefault;
-            vm.entries = entriesDefault;
-            vm.newEntry = newEntryDefault;
-        };
+            vm.isArchived = false;
+            vm.entries = [];
+            vm.newEntry = { name: "", note: "", amount: "" };
+        }
 
         function loadFromHistory(settlementId) {
             var data = persistenceService.read(settlementId);
@@ -73,7 +70,7 @@
             vm.settlementTitle = data.title;
             vm.isArchived = data.archived;
             vm.entries = data.entries;
-            vm.newEntry = newEntryDefault;
+            vm.newEntry = { name: "", note: "", amount: "" };
         }
 
         function initializeModals() {

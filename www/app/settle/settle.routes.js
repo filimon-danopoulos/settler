@@ -7,7 +7,17 @@
     config.$inject = ['$stateProvider'];
     function config($stateProvider) {
         $stateProvider
+
             .state('settler.settle', {
+                url: '/settle',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/settle/templates/settle.html',
+                        controller: 'SettleController as vm'
+                    }
+                }
+            })
+            .state('settler.settlement', {
                 url: '/settle/{settlementId}',
                 views: {
                     'menuContent': {
