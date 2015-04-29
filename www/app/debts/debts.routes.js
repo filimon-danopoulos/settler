@@ -11,7 +11,8 @@
                 url: '/debts',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/debts/debts.html'
+                        templateUrl: 'app/debts/debts.html',
+                        controller: 'DebtsController as vm'
                     }
                 }
             });

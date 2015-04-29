@@ -1,7 +1,12 @@
 <ion-view view-title="Debts">
     <ion-content>
-        <ion-item>
-            All debts will be listed here!
-        </ion-item>
+        <ion-list>
+            <ion-item ng-repeat="debt in vm.debts">
+                <strong>{{debt.gives}}</strong>
+                owes
+                <strong>{{debt.recieves}}</strong>
+                {{debt.amount}}:-
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view >
