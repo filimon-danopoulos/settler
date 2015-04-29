@@ -6,14 +6,16 @@
 
     SettleController.inject = [
         '$scope',
+        '$state',
         '$ionicModal',
         '$ionicPopup',
         '$ionicPopover',
         '$stateParams',
-        'persistenceService'
+        'persistenceService',
+        'settlementTransactionService'
     ];
-    function SettleController($scope, $ionicModal, $ionicPopup,
-            $ionicPopover, $stateParams, persistenceService) {
+    function SettleController($scope, $state, $ionicModal, $ionicPopup, $ionicPopover,
+            $stateParams, persistenceService, settlementTransactionService) {
         var vm = this,
             editing = false,
             editingIndex = -1,
@@ -33,6 +35,7 @@
         vm.renameSettlement = renameSettlement;
         vm.showActionsPopover = showActionsPopover;
         vm.archiveSettlement = archiveSettlement;
+        vm.showResults = showResults;
 
         /// Events
         $scope.$on('$ionicView.beforeEnter', initializeSettlement);
@@ -62,6 +65,7 @@
             vm.isArchived = false;
             vm.entries = [];
             vm.newEntry = { name: "", note: "", amount: "" };
+            vm.result = [];
         }
 
         function loadFromHistory(settlementId) {
@@ -71,6 +75,7 @@
             vm.isArchived = data.archived;
             vm.entries = data.entries;
             vm.newEntry = { name: "", note: "", amount: "" };
+            vm.result = data.result;
         }
 
         function initializeModals() {
@@ -183,7 +188,8 @@
             persistenceService.updateOrCreate(vm.settlementId, {
                 title: vm.settlementTitle,
                 archived: vm.isArchived,
-                entries: vm.entries
+                entries: vm.entries,
+                result: vm.result
             });
         }
 
@@ -203,6 +209,23 @@
                     updateSettlementInStorage();
                 }
             });
+        }
+
+        function showResults() {
+            if (!vm.isFromHistory) {
+                calculateResult();
+                updateSettlementInStorage();
+            }
+            $state.go("settler.result", {settlementId: vm.settlementId});
+        }
+
+        function calculateResult() {
+            vm.result = settlementTransactionService
+                .getTransactions(vm.entries)
+                .map(function(x) {
+                    x.settled = false;
+                    return x;
+                });
         }
     }
 })();

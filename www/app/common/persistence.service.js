@@ -63,9 +63,6 @@
         }
 
         function prepareData(key, data) {
-            if (storageKeyPropertyName in data) {
-                throw new Error(storageKeyPropertyName + " is reversed for localStorage.");
-            }
             data[storageKeyPropertyName] = key;
             return JSON.stringify(data);
         }

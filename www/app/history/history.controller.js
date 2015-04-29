@@ -20,7 +20,14 @@
 
         /// Implementation
         function initialize() {
-            vm.history = persistenceService.readAll();
+            vm.history = persistenceService
+                .readAll()
+                .map(function(x) {
+                    x.isCompleted = x.result.every(function(y) {
+                        return y.settled;
+                    });
+                    return x;
+                });
         }
 
         function removeItem(index) {

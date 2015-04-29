@@ -7,31 +7,34 @@
     ResultController.$inject = [
         '$scope',
         '$stateParams',
-        'settlementTransactionService',
         'persistenceService'
     ];
-    function ResultController($scope, $stateParams, settlementTransactionService, persistenceService) {
+    function ResultController($scope, $stateParams, persistenceService) {
         var vm = this,
-            settlementId;
+            settlementId,
+            data;
 
         /// Data
         vm.result = [];
         vm.title = "";
+
+        /// Actions
+        vm.updateSettlement = updateSettlement;
 
         /// Events
         $scope.$on('$ionicView.enter', initialize);
 
         /// Implemenation
         function initialize() {
-            var data;
             settlementId = $stateParams.settlementId;
             data = persistenceService.read(settlementId);
             vm.title = data.title;
-            vm.result = calculateResult(data.entries);
+            vm.result = data.result;
         }
 
-        function calculateResult(entries) {
-            return settlementTransactionService.getTransactions(entries);
+        function updateSettlement() {
+            persistenceService.update(settlementId, data);
         }
+
     }
 })();

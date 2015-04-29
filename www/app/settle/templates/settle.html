@@ -29,7 +29,8 @@
         <div class="footer-bar-centered">
             <a ng-disabled="vm.entries.length <= 1"
                class="button button-clear"
-               ui-sref="settler.result({settlementId: vm.settlementId})">Show Result</a>
+               ng-click="vm.showResults()">
+               Show Result</a>
         </div>
     </ion-footer-bar>
 </ion-view>

@@ -1,9 +1,14 @@
-<ion-view  align-title="right" view-title="Result" >
+<ion-view  align-title="right" view-title="Result" >x
     <ion-content class="has-header">
         <ion-list>
-            <ion-item ng-repeat="item in vm.result">
-                <p><strong>{{item.gives}}</strong>  should give <strong>{{item.recieves}}</strong> {{item.amount}}:- </p>
-            </ion-item>
+            <ion-checkbox ng-repeat="item in vm.result"
+                          ng-model="item.settled"
+                          ng-change="vm.updateSettlement()">
+                <strong>{{item.gives}}</strong>
+                should give
+                <strong>{{item.recieves}}</strong>
+                {{item.amount}}:-
+            </ion-checkbox>
         </ion-list>
     </ion-content>
 </ion-view>
