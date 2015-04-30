@@ -17,6 +17,7 @@
         /// Data
         vm.result = [];
         vm.title = "";
+        vm.allowSettling = false;
 
         /// Actions
         vm.updateSettlement = updateSettlement;
@@ -30,6 +31,7 @@
             data = persistenceService.read(settlementId);
             vm.title = data.title;
             vm.result = data.result;
+            vm.allowSettling = data.archived;
         }
 
         function updateSettlement() {
