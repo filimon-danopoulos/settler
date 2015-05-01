@@ -31,7 +31,7 @@
         vm.editEntry = editEntry;
         vm.openAddEntryModal = openAddEntryModal;
         vm.closeAddEntryModal = closeAddEntryModal;
-        vm.saveNewEntry = saveNewEntry;
+        vm.saveEntry = saveEntry;
         vm.renameSettlement = renameSettlement;
         vm.showActionsPopover = showActionsPopover;
         vm.archiveSettlement = archiveSettlement;
@@ -125,6 +125,7 @@
 
         function removeEntry(index) {
             vm.entries.splice(index, 1);
+            invalidateResult();
             updateSettlementInStorage();
         }
 
@@ -155,7 +156,7 @@
             addEntryModal.hide();
         }
 
-        function saveNewEntry() {
+        function saveEntry() {
             var newEntry = {
                 name: vm.newEntry.name,
                 note: vm.newEntry.note,
@@ -166,8 +167,13 @@
             } else {
                 vm.entries.push(newEntry);
             }
+            invalidateResult();
             updateSettlementInStorage();
             closeAddEntryModal();
+        }
+
+        function invalidateResult() {
+            vm.result = [];
         }
 
         function renameSettlement() {
