@@ -35,9 +35,8 @@
 	function config($urlRouterProvider, $ionicConfigProvider) {
 		// Defaut route
 		$urlRouterProvider.otherwise('/settler/settle');
-		// Always places tabs on bottom
-		$ionicConfigProvider.tabs.position('bottom');
+
 		// Allign title center for all platfroms
-		$ionicConfigProvider.navBar.alignTitle('center');
+		//$ionicConfigProvider.navBar.alignTitle('center');
 	}
 })();
