@@ -9,7 +9,8 @@
 		'settler.start',
 		'settler.settle',
 		'settler.history',
-		'settler.debts'
+		'settler.debts',
+		'settler.settings'
 	];
 
 	angular.module('settler', dependencies)
