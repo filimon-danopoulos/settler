@@ -5,7 +5,8 @@
                       ng-repeat="item in vm.history"
                       ui-sref="settler.settlement({settlementId: {{vm.getSettlementId(item)}}})">
                 <h2>{{item.title}}</h2>
-                <i class="icon ion-ios-checkmark-outline" ng-hide="!item.isCompleted"></i>
+                <i class="icon ion-ios-checkmark-outline"
+                   ng-show="item.archived && item.isCompleted && item.result.length"></i>
                 <ion-option-button class="button-assertive"
                             ng-click="vm.removeItem($index)">
                     Remove

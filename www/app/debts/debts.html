@@ -1,11 +1,24 @@
 <ion-view view-title="Debts">
     <ion-content>
+        <ion-refresher pulling-text="Pull to refresh..."
+                       on-refresh="vm.refresh()">
+        </ion-refresher>
         <ion-list>
             <ion-item ng-repeat="debt in vm.debts">
                 <strong>{{debt.gives}}</strong>
                 owes
                 <strong>{{debt.recieves}}</strong>
                 {{debt.amount}}:-
+                <ion-option-button class="button-balanced"
+                            ng-show="!debt.settled"
+                            ng-click="vm.toggleDebt(debt)">
+                    Resolve
+                </ion-option-button>
+                <ion-option-button class="button-assertive"
+                            ng-show="debt.settled"
+                            ng-click="vm.toggleDebt(debt)">
+                    Undo
+                </ion-option-button>
             </ion-item>
         </ion-list>
     </ion-content>
