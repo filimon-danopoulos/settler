@@ -9,10 +9,21 @@
         var vm = this,
             clearHistoryModal;
 
+        /// Data
+        vm.history = {};
+
         /// Actions
         vm.showClearHistoryModal = showClearHistoryModal;
+        vm.updateHistorySettings = updateHistorySettings;
+
+        /// Events
+        $scope.$on('$ionicView.beforeEnter', initialize);
 
         /// Implementation
+        function initialize() {
+            vm.history = persistenceService.read('settings', 'history');
+        }
+
         function showClearHistoryModal() {
             $ionicPopup.confirm({
                 title: 'Clear History',
@@ -26,7 +37,11 @@
         }
 
         function clearHistory() {
-            persistenceService.clearEntity("settlements");
+            persistenceService.clearEntity('settlements');
+        }
+
+        function updateHistorySettings() {
+            persistenceService.updateOrCreate('settings', 'history', vm.history);
         }
     }
 })();

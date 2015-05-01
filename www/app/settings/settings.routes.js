@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('settler.settings')
-        .config(config);
+        .config(config)
+        .run(run);
 
     config.$inject = ['$stateProvider'];
     function config($stateProvider) {
@@ -17,4 +18,17 @@
                 }
             });
     }
+
+    run.$inject = ['persistenceService'];
+    function run(persistenceService) {
+        try {
+            persistenceService.create('settings', 'history', {
+                showCompletedEntries: true
+            });
+        } catch (ex) {
+            // Ignore this exception.
+        }
+
+    }
+
 })();

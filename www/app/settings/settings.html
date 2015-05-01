@@ -1,14 +1,21 @@
 <ion-view view-title="Settings">
     <ion-content>
-        <div class="list list-inset">
+        <ion-list>
+            <ion-item class="item-divider">
+                History
+            </ion-item>
+            <ion-toggle ng-change="vm.updateHistorySettings()"
+                        ng-model="vm.history.showCompletedEntries">
+                Show completed entries
+            </ion-toggle>
             <ion-item class="item-divider">
                 General
             </ion-item>
-            <ion-item class="item-icon-left"
+            <ion-item class="item-icon-right"
                       ng-click="vm.showClearHistoryModal()">
                 Clear History
                 <i class="icon ion-refresh"></i>
             </ion-item>
-        </div>
+        </ion-list>
     </ion-content>
 </ion-view>

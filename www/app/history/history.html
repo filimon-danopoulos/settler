@@ -3,6 +3,7 @@
         <ion-list>
             <ion-item class="item-icon-right"
                       ng-repeat="item in vm.history"
+                      ng-hide="item.isCompleted && !vm.showCompletedEntries"
                       ui-sref="settler.settlement({settlementId: {{vm.getSettlementId(item)}}})">
                 <h2>{{item.title}}</h2>
                 <i class="icon ion-ios-checkmark-outline"

@@ -16,9 +16,15 @@
         vm.getSettlementId = getSettlementId;
 
         /// Events
+        $scope.$on('$ionicView.beforeEnter', loadSettings);
         $scope.$on('$ionicView.enter', initialize);
 
         /// Implementation
+        function loadSettings() {
+            var settings = persistenceService.read('settings', 'history');
+            vm.showCompletedEntries = settings.showCompletedEntries;
+        }
+
         function initialize() {
             vm.history = persistenceService
                 .readAll("settlements")
