@@ -212,7 +212,7 @@
         }
 
         function showResults() {
-            if (!vm.isFromHistory) {
+            if (!vm.result.length) {
                 calculateResult();
                 updateSettlementInStorage();
             }
@@ -220,9 +220,11 @@
         }
 
         function calculateResult() {
+            var id = 0;
             vm.result = settlementTransactionService
                 .getTransactions(vm.entries)
                 .map(function(x) {
+                    x.transactionId = id++;
                     x.settled = false;
                     return x;
                 });
