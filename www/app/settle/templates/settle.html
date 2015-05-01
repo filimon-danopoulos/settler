@@ -3,6 +3,7 @@
         <h1 class="title">{{vm.settlementTitle}}</h1>
         <div class="buttons">
             <button class="button button-icon icon ion-more"
+                    ng-hide="vm.isArchived && vm.isFromHistory"
                     ng-click="vm.showActionsPopover($event)"></button>
             <button class="button button-icon icon ion-ios-plus-outline"
                     ng-show="!vm.isArchived"
