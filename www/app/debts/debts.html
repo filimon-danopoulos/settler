@@ -9,6 +9,9 @@
                 owes
                 <strong>{{debt.recieves}}</strong>
                 {{debt.amount}}:-
+                <span ng-show="debt.settled" class="item-note">
+                    (settled)
+                </span>
                 <ion-option-button class="button-balanced"
                             ng-show="!debt.settled"
                             ng-click="vm.toggleDebt(debt)">

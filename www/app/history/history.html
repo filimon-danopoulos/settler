@@ -1,6 +1,6 @@
 <ion-view view-title="History">
     <ion-content>
-        <ion-list can-swipe="{{true}}">
+        <ion-list>
             <ion-item class="item-icon-right"
                       ng-repeat="item in vm.history"
                       ui-sref="settler.settlement({settlementId: {{vm.getSettlementId(item)}}})">
