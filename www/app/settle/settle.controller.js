@@ -69,7 +69,7 @@
         }
 
         function loadFromHistory(settlementId) {
-            var data = persistenceService.read(settlementId);
+            var data = persistenceService.read("settlements", settlementId);
             vm.settlementId = settlementId;
             vm.settlementTitle = data.title;
             vm.isArchived = data.archived;
@@ -191,7 +191,7 @@
         }
 
         function updateSettlementInStorage() {
-            persistenceService.updateOrCreate(vm.settlementId, {
+            persistenceService.updateOrCreate("settlements", vm.settlementId, {
                 title: vm.settlementTitle,
                 archived: vm.isArchived,
                 entries: vm.entries,

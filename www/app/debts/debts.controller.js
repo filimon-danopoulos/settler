@@ -30,7 +30,7 @@
         }
 
         function loadData() {
-            data = persistenceService.readAll();
+            data = persistenceService.readAll("settlements");
             vm.debts = data
                 .filter(function(x) {
                     return x.archived;
@@ -64,6 +64,7 @@
                 });
 
             persistenceService.update(
+                "settlements",
                 settlement[persistenceService.KEY_NAME],
                 settlement
             );

@@ -26,12 +26,7 @@
         }
 
         function clearHistory() {
-            var data = persistenceService.readAll(),
-                entry;
-            for (var i = 0, len = data.length; i < len; i++) {
-                entry = data[i];
-                persistenceService.destroy(entry[persistenceService.KEY_NAME]);
-            }
+            persistenceService.clearEntity("settlements");
         }
     }
 })();

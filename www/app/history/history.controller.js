@@ -21,7 +21,7 @@
         /// Implementation
         function initialize() {
             vm.history = persistenceService
-                .readAll()
+                .readAll("settlements")
                 .map(function(x) {
                     x.isCompleted = x.result.every(function(y) {
                         return y.settled;
@@ -32,7 +32,7 @@
 
         function removeItem(index) {
             var affected = vm.history.splice(index, 1).shift();
-            persistenceService.destroy(affected[persistenceService.KEY_NAME]);
+            persistenceService.destroy("settlements", affected[persistenceService.KEY_NAME]);
         }
 
         function getSettlementId(item) {

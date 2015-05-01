@@ -2,12 +2,10 @@
     background-color: #dfe6f2;
 }
 
-
 .footer-bar-centered {
     width: 100%;
     text-align: center;
 }
-
 
 ion-popover-view.fit {
   height: auto !important;

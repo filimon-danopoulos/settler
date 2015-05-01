@@ -28,14 +28,14 @@
         /// Implemenation
         function initialize() {
             settlementId = $stateParams.settlementId;
-            data = persistenceService.read(settlementId);
+            data = persistenceService.read("settlements", settlementId);
             vm.title = data.title;
             vm.result = data.result;
             vm.allowSettling = data.archived;
         }
 
         function updateSettlement() {
-            persistenceService.update(settlementId, data);
+            persistenceService.update("settlements", settlementId, data);
         }
 
     }

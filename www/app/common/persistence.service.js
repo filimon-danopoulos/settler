@@ -13,62 +13,91 @@
             readAll: readAll,
             create: create,
             update: update,
-            destroy: destroy,
             updateOrCreate: updateOrCreate,
+            destroy: destroy,
+            clearEntity: clearEntity,
             KEY_NAME: storageKeyPropertyName
         };
 
-        function read(key) {
-            var data = $window.localStorage.getItem(key);
-            if (data === null) {
-                throw new Error("Could not find: " + key);
+
+        function read(entity, key) {
+            var entries = getEntity(entity),
+                entry = entries[key];
+            if (entry === undefined) {
+                throw new Error("Could not find entry with id: " + key);
             }
-            return JSON.parse(data);
+            return entry;
         }
 
-        function readAll() {
-            var key,
+        function readAll(entity) {
+            var entries = getEntity(entity),
                 entry,
                 result = [];
-
-            for ( var i = 0, len = $window.localStorage.length; i < len; ++i ) {
-                key = $window.localStorage.key(i);
-                entry = $window.localStorage.getItem(key);
-                result.push(JSON.parse(entry));
+            for(var key in entries) {
+                if (entries.hasOwnProperty(key)) {
+                    entry = entries[key];
+                    result.push(entry);
+                }
             }
-
             return result;
         }
 
-        function create(key, data) {
-            if ($window.localStorage.getItem(key) !== null) {
-                throw new Error("Could not create "+key+" the key already exists.");
+        function create(entity, key, data) {
+            var entries = getEntity(entity);
+            if (key in entries) {
+                throw new Error("The key "+key+" already exists!");
             }
-            insertData(key, data);
+            setEntity(entity, entries, key, data);
         }
 
-        function update(key, data) {
-            if ($window.localStorage.getItem(key) === null) {
-                throw new Error("Could not update "+key+" the key doesn't exists.");
+        function update(entity, key, data) {
+            var entries;
+            if ($window.localStorage.getItem(entity) === null) {
+                throw new Error("Could not update the entity "+entity+" since it doesn't exists.");
             }
-            insertData(key, data);
+            entries = getEntity(entity);
+            if (!(key in entries)) {
+                throw new Error("The key "+key+" doesn't exists!");
+            }
+            setEntity(entity, entries, key, data);
         }
 
-        function destroy(key) {
-            $window.localStorage.removeItem(key);
+        function updateOrCreate(entity, key, data) {
+            var entries = getEntity(entity);
+            setEntity(entity, entries, key, data);
         }
 
-        function updateOrCreate(key, data) {
-            insertData(key, data);
+        function destroy(entity, key) {
+            var entries = getEntity(entity);
+            delete entries[key];
+            insertData(entity, data);
         }
 
-        function prepareData(key, data) {
+        function getEntity(entity) {
+            var entries;
+            createEntityIfDoesntExist(entity);
+            entries = $window.localStorage.getItem(entity);
+            return JSON.parse(entries);
+        }
+
+        function createEntityIfDoesntExist(entity) {
+            if ($window.localStorage.getItem(entity) === null) {
+                insertData(entity, {});
+            }
+        }
+
+        function clearEntity(entity) {
+            insertData(entity, {});
+        }
+
+        function setEntity(entity, entries, key, data) {
             data[storageKeyPropertyName] = key;
-            return JSON.stringify(data);
+            entries[key] = data;
+            insertData(entity, entries);
         }
 
-        function insertData(key, data) {
-            $window.localStorage.setItem(key, prepareData(key, data));
+        function insertData(entity, data) {
+            $window.localStorage.setItem(entity, JSON.stringify(data));
         }
     }
 })();
