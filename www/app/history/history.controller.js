@@ -4,8 +4,13 @@
     angular.module('settler.history')
         .controller('HistoryController', HistoryController);
 
-    HistoryController.$inject = ['$scope', 'persistenceService'];
-    function HistoryController($scope, persistenceService) {
+    HistoryController.$inject = [
+        '$scope',
+        'persistenceService',
+        'historyService',
+        'settingsService'
+    ];
+    function HistoryController($scope, persistenceService, historyService, settingsService) {
         var vm = this;
 
         /// Data
@@ -14,6 +19,8 @@
         /// Actions
         vm.removeItem = removeItem;
         vm.getSettlementId = getSettlementId;
+        vm.hasVisibleEntries = hasVisibleEntries;
+        vm.isEntryVisible = isEntryVisible;
 
         /// Events
         $scope.$on('$ionicView.beforeEnter', loadSettings);
@@ -21,28 +28,37 @@
 
         /// Implementation
         function loadSettings() {
-            var settings = persistenceService.read('settings', 'history');
+            var settings = settingsService.loadHistorySettings();
             vm.showCompletedEntries = settings.showCompletedEntries;
         }
 
         function initialize() {
-            vm.history = persistenceService
-                .readAll("settlements")
-                .map(function(x) {
-                    x.isCompleted = x.result.every(function(y) {
-                        return y.settled;
-                    });
-                    return x;
-                });
+            vm.history = historyService.loadHistory();
         }
 
         function removeItem(index) {
             var affected = vm.history.splice(index, 1).shift();
-            persistenceService.destroy("settlements", affected[persistenceService.KEY_NAME]);
+            historyService.removeEntry(affected);
         }
 
         function getSettlementId(item) {
             return item[persistenceService.KEY_NAME];
+        }
+
+        function hasVisibleEntries() {
+            return vm.history
+                .filter(function(x) {
+                    return isEntryVisible(x);
+                })
+                .length;
+        }
+
+        function isEntryVisible(entry) {
+            if (vm.showCompletedEntries) {
+                return true;
+            } else {
+                return !entry.isCompleted;
+            }
         }
     }
 })();

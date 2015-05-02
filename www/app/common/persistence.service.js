@@ -70,7 +70,7 @@
         function destroy(entity, key) {
             var entries = getEntity(entity);
             delete entries[key];
-            insertData(entity, data);
+            insertData(entity, entries);
         }
 
         function getEntity(entity) {

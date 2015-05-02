@@ -1,17 +1,22 @@
 <ion-view view-title="History">
     <ion-content>
         <ion-list>
+            <ion-item class="item-divider list-message subtle-text"
+                      ng-show="!vm.showCompletedEntries && vm.history.length">
+                Filtering completed entries
+            </ion-item>
             <ion-item class="item-icon-right"
                       ng-repeat="item in vm.history"
-                      ng-hide="item.isCompleted && !vm.showCompletedEntries"
+                      ng-show="vm.isEntryVisible(item)"
                       ui-sref="settler.settlement({settlementId: {{vm.getSettlementId(item)}}})">
                 <h2>{{item.title}}</h2>
-                <i class="icon ion-ios-checkmark-outline"
-                   ng-show="item.archived && item.isCompleted && item.result.length"></i>
-                <ion-option-button class="button-assertive"
-                            ng-click="vm.removeItem($index)">
+                <i class="icon ion-ios-checkmark-outline" ng-show="item.isCompleted"></i>
+                <ion-option-button class="button-assertive" ng-click="vm.removeItem($index)">
                     Remove
                 </ion-option-button>
+            </ion-item>
+            <ion-item class="list-message" ng-hide="vm.hasVisibleEntries()">
+                Nothing to display!
             </ion-item>
         </ion-list>
     </ion-content>

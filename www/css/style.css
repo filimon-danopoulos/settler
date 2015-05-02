@@ -7,6 +7,15 @@
     text-align: center;
 }
 
+.subtle-text {
+    color: #999999;
+}
+
+.list-message {
+    text-align: center;
+    font-style: italic;
+}
+
 ion-popover-view.fit {
   height: auto !important;
 }
