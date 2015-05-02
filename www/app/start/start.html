@@ -1,12 +1,66 @@
 <ion-view view-title="Start">
     <ion-content>
         <div class="card">
-            <div class="item item-divider">
-                <h1>Welcome!</h1>
-            </div>
-            <div class="item item-text-wrap">
-                Let's do something crazy!
-            </div>
+            <ion-item class="item-divider">
+                Stats
+            </ion-item>
+            <ion-item class="row">
+                <div class="col">
+                    <strong>Settlements</strong>
+                </div>
+                <div class="col" style="text-align: right">
+                    {{vm.settlements.length}}
+                </div>
+            </ion-item>
+            <ion-item class="row">
+                <div class="col">
+                    <strong>Entries</strong>
+                </div>
+                <div class="col" style="text-align: right">
+                    {{vm.entries.length}}
+                </div>
+            </ion-item>
+            <ion-item class="row">
+                <div class="col">
+                    <strong>Debts</strong>
+                </div>
+                <div class="col" style="text-align: right">
+                    {{vm.debts.length}}
+                </div>
+            </ion-item>
         </div>
+        <div class="card">
+            <ion-item class="item-divider">
+                Largest all-time debts
+            </ion-item>
+            <ion-item class="row" ng-repeat="entry in vm.largestDebts">
+                <div class="col">
+                    <strong>{{entry.gives}}</strong>
+                </div>
+                <div class="col" style="text-align: right">
+                    {{entry.amount}}
+                </div>
+            </ion-item>
+            <ion-item class="row list-message" ng-hide="vm.largestDebts.length">
+                Nothing to display!
+            </ion-item>
+        </div>
+        <div class="card">
+            <ion-item class="item-divider">
+                Largest all-time expenses
+            </ion-item>
+            <ion-item class="row" ng-repeat="entry in vm.largestExpenses">
+                <div class="col">
+                    <strong>{{entry.name}}</strong>
+                </div>
+                <div class="col" style="text-align: right">
+                    {{entry.amount}}
+                </div>
+            </ion-item>
+            <ion-item class="row list-message" ng-hide="vm.largestExpenses.length">
+                Nothing to display!
+            </ion-item>
+        </div>
+
     </ion-content>
 </ion-view>

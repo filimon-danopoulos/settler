@@ -11,7 +11,8 @@
                 url: '/start',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/start/start.html'
+                        templateUrl: 'app/start/start.html',
+                        controller: 'StartController as vm'
                     }
                 }
             });

@@ -35,7 +35,7 @@
 	config.$inject = ['$urlRouterProvider', '$ionicConfigProvider'];
 	function config($urlRouterProvider, $ionicConfigProvider) {
 		// Defaut route
-		$urlRouterProvider.otherwise('/settler/settle');
+		$urlRouterProvider.otherwise('/settler/start');
 
 		// Allign title center for all platfroms
 		//$ionicConfigProvider.navBar.alignTitle('center');
