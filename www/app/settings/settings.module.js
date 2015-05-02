@@ -4,15 +4,13 @@
     angular.module('settler.settings', [])
         .run(run);
 
-
-    run.$inject = ['persistenceService', 'defaultSettings'];
-    function run(persistenceService, defaultSettings) {
+    run.$inject = ['settingsService'];
+    function run(settingsService) {
         try {
-            persistenceService.create('settings', 'history', defaultSettings.history);
+            settingsService.setDefaultSettings();
         } catch (ex) {
             // Ignore this exception.
             // We only want to create default setings if no other settings exist.
         }
-
     }
 })();

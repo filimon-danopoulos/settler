@@ -4,8 +4,13 @@
     angular.module('settler.settings')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.inject = ['$scope', '$ionicPopup', 'persistenceService'];
-    function SettingsController($scope, $ionicPopup, persistenceService) {
+    SettingsController.inject = [
+        '$scope',
+        '$ionicPopup',
+        'settingsService',
+        'historyService'
+    ];
+    function SettingsController($scope, $ionicPopup, settingsService, historyService) {
         var vm = this,
             clearHistoryModal;
 
@@ -14,6 +19,7 @@
 
         /// Actions
         vm.showClearHistoryModal = showClearHistoryModal;
+        vm.showResetSettingsModal = showResetSettingsModal;
         vm.updateHistorySettings = updateHistorySettings;
 
         /// Events
@@ -21,7 +27,11 @@
 
         /// Implementation
         function initialize() {
-            vm.history = persistenceService.read('settings', 'history');
+            loadHistory();
+        }
+
+        function loadHistory() {
+            vm.history = settingsService.loadHistorySettings();
         }
 
         function showClearHistoryModal() {
@@ -36,12 +46,24 @@
             });
         }
 
+        function showResetSettingsModal() {
+            $ionicPopup.confirm({
+                title: 'Reset Settings',
+                template: 'Are you sure you want to reset all the settings?'
+            }).then(function(result) {
+                if(result) {
+                    settingsService.resetSettings();
+                    loadHistory();
+                }
+            });
+        }
+
         function clearHistory() {
-            persistenceService.clearEntity('settlements');
+            historyService.clearHistory();
         }
 
         function updateHistorySettings() {
-            persistenceService.updateOrCreate('settings', 'history', vm.history);
+            settingsService.saveHistorySettings(vm.history);
         }
     }
 })();

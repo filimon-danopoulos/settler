@@ -8,12 +8,17 @@
                         ng-model="vm.history.showCompletedEntries">
                 Show completed entries
             </ion-toggle>
-            <ion-item class="item-divider">
-                General
-            </ion-item>
             <ion-item class="item-icon-right"
                       ng-click="vm.showClearHistoryModal()">
                 Clear History
+                <i class="icon ion-trash-b"></i>
+            </ion-item>
+            <ion-item class="item-divider">
+                Settings
+            </ion-item>
+            <ion-item class="item-icon-right"
+                      ng-click="vm.showResetSettingsModal()">
+                Reset
                 <i class="icon ion-refresh"></i>
             </ion-item>
         </ion-list>
