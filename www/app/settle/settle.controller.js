@@ -191,7 +191,7 @@
 
         function updateSettlementInStorage() {
             settleService.saveSettlement(vm.settlementId, {
-                title: vm.settlementTitle,
+                settlementTitle: vm.settlementTitle,
                 archived: vm.isArchived,
                 entries: vm.entries,
                 result: vm.result
