@@ -68,7 +68,7 @@
         }
 
         function loadFromHistory(settlementId) {
-            var data = settleService.loadSettlement(settlementId)
+            var data = settleService.loadSettlement(settlementId);
             vm.settlementId = settlementId;
             vm.settlementTitle = data.title;
             vm.isArchived = data.archived;
@@ -192,7 +192,7 @@
         function updateSettlementInStorage() {
             settleService.saveSettlement(vm.settlementId, {
                 settlementTitle: vm.settlementTitle,
-                archived: vm.isArchived,
+                isArchived: vm.isArchived,
                 entries: vm.entries,
                 result: vm.result
             });
