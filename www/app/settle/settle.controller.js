@@ -11,11 +11,10 @@
         '$ionicPopup',
         '$ionicPopover',
         '$stateParams',
-        'persistenceService',
-        'settlementTransactionService'
+        'settleService'
     ];
     function SettleController($scope, $state, $ionicModal, $ionicPopup, $ionicPopover,
-            $stateParams, persistenceService, settlementTransactionService) {
+            $stateParams, settleService) {
         var vm = this,
             editing = false,
             editingIndex = -1,
@@ -55,7 +54,7 @@
         }
 
         function initializeViews() {
-            initializeModals();
+            initializeModal ();
             initializePopover();
         }
 
@@ -69,7 +68,7 @@
         }
 
         function loadFromHistory(settlementId) {
-            var data = persistenceService.read("settlements", settlementId);
+            var data = settleService.loadSettlement(settlementId)
             vm.settlementId = settlementId;
             vm.settlementTitle = data.title;
             vm.isArchived = data.archived;
@@ -78,7 +77,7 @@
             vm.result = data.result;
         }
 
-        function initializeModals() {
+        function initializeModal() {
             $ionicModal.fromTemplateUrl('app/settle/templates/add-entry-modal.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
@@ -191,7 +190,7 @@
         }
 
         function updateSettlementInStorage() {
-            persistenceService.updateOrCreate("settlements", vm.settlementId, {
+            settleService.saveSettlement(vm.settlementId, {
                 title: vm.settlementTitle,
                 archived: vm.isArchived,
                 entries: vm.entries,
@@ -226,14 +225,7 @@
         }
 
         function calculateResult() {
-            var id = 0;
-            vm.result = settlementTransactionService
-                .getTransactions(vm.entries)
-                .map(function(x) {
-                    x.transactionId = id++;
-                    x.settled = false;
-                    return x;
-                });
+            vm.result = settleService.calculateResult(vm.entries)
         }
     }
 })();
